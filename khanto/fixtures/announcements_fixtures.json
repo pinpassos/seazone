@@ -1,0 +1,35 @@
+[
+    {
+        "model": "khanto.announcement",
+        "pk": 1,
+        "fields": {
+            "property": 4,
+            "plataform_name": "WATHERBNB",
+            "plataform_rate": 300.0,
+            "created_at": "2023-06-29T03:01:47.538Z",
+            "updated_at": "2023-06-29T03:01:47.538Z"
+        }
+    },
+    {
+        "model": "khanto.announcement",
+        "pk": 2,
+        "fields": {
+            "property": 5,
+            "plataform_name": "FIREBNB",
+            "plataform_rate": 250.0,
+            "created_at": "2023-06-29T03:02:02.278Z",
+            "updated_at": "2023-06-29T03:02:02.278Z"
+        }
+    },
+    {
+        "model": "khanto.announcement",
+        "pk": 3,
+        "fields": {
+            "property": 1,
+            "plataform_name": "EARTHBNB",
+            "plataform_rate": 150.0,
+            "created_at": "2023-06-29T03:02:55.047Z",
+            "updated_at": "2023-06-29T03:02:55.047Z"
+        }
+    }
+]
