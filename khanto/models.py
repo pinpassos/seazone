@@ -1,15 +1,17 @@
-from collections.abc import Iterable
 import uuid
 
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MinValueValidator
 from django.db import models
+
+DAILY_PRICE = 250.00
 
 
 class Property(models.Model):
     """Stores property entries."""
     code = models.CharField('Property code', max_length=3)
-    number_of_guests = models.PositiveIntegerField('Number of guests')
+    number_of_guests = models.PositiveIntegerField(
+        'Number of guests', help_text='Max number of guests', validators=[MinValueValidator(1)])
     number_of_bathrooms = models.PositiveIntegerField('Number of bathrooms')
     allowed_pet = models.BooleanField('Allowed pet')
     cleaning_cost = models.FloatField('Cleaning cost', validators=[MinValueValidator(
@@ -51,12 +53,10 @@ class Announcement(models.Model):
 
 class Booking(models.Model):
     """Stores booking entries."""
-    DAILY_PRICE = 250.00
-
     code = models.UUIDField('Booking code', unique=True,
                             default=uuid.uuid4, editable=False)
     announcement = models.ForeignKey(
-        'Announcement', verbose_name='bookings', on_delete=models.DO_NOTHING)
+        'Announcement', on_delete=models.DO_NOTHING)
     check_in = models.DateField('Check-in date')
     check_out = models.DateField('Check-out date')
     total_price = models.FloatField('Total price', null=True, blank=True)
@@ -78,7 +78,7 @@ class Booking(models.Model):
 
     def get_total_price_per_guest(self):
         """Returns sum of the price based on the number of guests."""
-        daily_price = self.DAILY_PRICE
+        daily_price = DAILY_PRICE
         number_of_guests = self.number_of_guests
         total_price_per_guest = number_of_guests * daily_price
         return total_price_per_guest
@@ -109,7 +109,7 @@ class Booking(models.Model):
         """Override clean method to validate fields based on business rules."""
         if self.check_in > self.check_out:
             raise ValidationError(
-                message='Check-in cannot be smaller than check-out date')
+                message='Check-in cannot be greater than check-out date')
 
         if self.number_of_guests > self.announcement.property.number_of_guests:
             raise ValidationError(
