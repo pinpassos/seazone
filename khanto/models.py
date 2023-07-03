@@ -56,7 +56,7 @@ class Booking(models.Model):
     code = models.UUIDField('Booking code', unique=True,
                             default=uuid.uuid4, editable=False)
     announcement = models.ForeignKey(
-        'Announcement', on_delete=models.DO_NOTHING)
+        'Announcement', on_delete=models.CASCADE)
     check_in = models.DateField('Check-in date')
     check_out = models.DateField('Check-out date')
     total_price = models.FloatField('Total price', null=True, blank=True)
